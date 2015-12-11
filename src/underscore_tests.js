@@ -189,28 +189,61 @@ var _ = { };
     if (isObject(collection)) {
       if (!isArray(collection)) { // if object
         for (var p in collection) {
-          if (collection[p] === target)
+          if (collection[p] === target) {
             found = true;
             break;
+          }
         }
       }
       else { // if array
         for (var i = 0; i < collection.length; i++) {
-          ret = iterator(prev, collection[i]);
-          prev = ret;
+          if (collection[i] === target) {
+            found = true;
+            break;
+          }
         }
       }
     }
+    return found;
   };
 
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
+      var test = true;
+        for (var i = 0; i < collection.length; i++) {
+          if (iterator !== undefined) {
+            if (!iterator(collection[i])) {
+                test= false;
+                break;
+            }
+          }
+          else if(!collection[i]) {
+            test = false
+            break;
+          }
+        }
+      return test
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
+      var test = false;
+      for (var i = 0; i < collection.length; i++) {
+        if (iterator !== undefined) {
+          if (iterator(collection[i])) {
+              test= true;
+              break;
+          }
+        }
+        else if(collection[i]) {
+          test = true
+          break;
+        }
+      }
+      return test
+
   };
 
 
