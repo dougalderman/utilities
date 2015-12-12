@@ -257,13 +257,38 @@ var _ = { };
   // Extend a given object with all the properties of the passed in
   // object(s).
   _.extend = function(obj) {
+    var newObj = {}
+    for (var i = 0; i < arguments.length; i++)  {
+      for (var p in arguments[i]) {
+        if (arguments[i][p]) { // not falsy
+          newObj[p] = arguments[i][p];
+        }
+        else {  // falsy
+          newObj[p] = true;
+        }
+      }
+    }
+    return newObj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    var newObj = {}
+    for (var i = 0; i < arguments.length; i++)  {
+      for (var p in arguments[i]) {
+        if (!newObj[p]) { // key doesn't exist
+          if (arguments[i][p]) { // not falsy
+            newObj[p] = arguments[i][p];
+          }
+          else { // falsy
+            newObj[p] = true;
+          }
+        }
+      }
+    }
+    return newObj;
   };
-
 
   /**
    * FUNCTIONS
