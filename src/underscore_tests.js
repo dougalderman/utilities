@@ -274,16 +274,13 @@ var _ = { };
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
-    var newObj = {}
+    var newObj = {};
+    var arrayOfKeys = [];
     for (var i = 0; i < arguments.length; i++)  {
       for (var p in arguments[i]) {
-        if (!newObj[p]) { // key doesn't exist
-          if (arguments[i][p]) { // not falsy
+        if (arrayOfKeys.indexOf(p) === -1) { // key doesn't already exist
             newObj[p] = arguments[i][p];
-          }
-          else { // falsy
-            newObj[p] = true;
-          }
+            arrayOfKeys.push(p);
         }
       }
     }
@@ -298,7 +295,14 @@ var _ = { };
   // Return a function that can be called at most one time. Subsequent calls
   // should return the previously returned value.
   _.once = function(func) {
-  };
+      var callCount = 0;
+      return function() {
+        if (callCount < 1) {
+          callCount++;
+          return func();
+        }
+      }
+    };
 
   // Memoize an expensive function by storing its results. You may assume
   // that the function takes only one argument and that it is a primitive.
@@ -307,6 +311,23 @@ var _ = { };
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var resultObject = {arg: '', result: ''};
+    var resultObjectArray = [];
+    return function(argum) {
+      var found = false;
+      for (var i = 0; i < resultObjectArray.length; i++) {
+        if (resultObjectArray[i][arg] === argum) {// If existing argument
+          found = true;
+          return resultObjectArray[i][result];
+        }
+      }
+      if (!found) {
+        resultObject.arg = argum;
+        resultObject.result = func(argum);
+        resultObjectArray.push(resultObject);
+        return func(arg); // return called func
+      }
+    }
   };
 
   // Delays a function for the given number of milliseconds, and then calls
