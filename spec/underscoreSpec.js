@@ -334,6 +334,8 @@ describe("defaults", function() {
   var options, defaulted;
 
 /*
+  var results, options;
+
   beforeEach(function() {
     options = {zero: 0, one: 1, empty: "", nan: NaN, string: "string"};
     _.defaults(options, {zero: 1, one: 10, twenty: 20}, {empty: "full"}, {nan: "nan"}, {word: "word"}, {word: "dog"});
@@ -371,7 +373,7 @@ describe("defaults", function() {
 
   it("if two identical values are passed in, the first one wins", function() {
     expect(defaulted.word).to.equal("word");
-  }); 
+  });
 });
 
 describe("once", function() {
