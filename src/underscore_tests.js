@@ -316,16 +316,16 @@ var _ = { };
     return function(argum) {
       var found = false;
       for (var i = 0; i < resultObjectArray.length; i++) {
-        if (resultObjectArray[i][arg] === argum) {// If existing argument
+        if (resultObjectArray[i].arg === argum) {// If existing argument
           found = true;
           return resultObjectArray[i][result];
         }
       }
       if (!found) {
-        resultObject.arg = argum;
-        resultObject.result = func(argum);
-        resultObjectArray.push(resultObject);
-        return func(arg); // return called func
+          resultObject.arg = argum;
+          // resultObject.result = func(argum);
+          resultObjectArray.push(resultObject);
+          return func; // return func
       }
     }
   };
